@@ -1,4 +1,4 @@
-import { renderRoute, recipes as recipeLibrary } from '/pages.js?v=3';
+import { renderRoute, recipes as recipeLibrary } from '/pages.js?v=4';
 document.documentElement.classList.add('js');
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -88,6 +88,7 @@ function unlockBody() {
     video.play().catch(() => {});
   }
 }
+$$('dialog').forEach(dialog => dialog.addEventListener('close', unlockBody));
 
 function openQuiz() {
   if (state.step >= 9) state.step = 9;
@@ -284,7 +285,7 @@ function resultTemplate() {
         ${state.plan.map(item => `<article class="plan-item"><div class="plan-swatch">${item.short}</div><div class="plan-meta"><h3>${item.name}</h3><small>${item.delta ? `每包加 ¥${item.delta}` : '基础配方 · 不加价'}</small></div><div class="qty-control" aria-label="${item.name}数量"><button data-qty="-1" data-id="${item.id}" aria-label="减少一包">−</button><span aria-live="polite">${item.qty}</span><button data-qty="1" data-id="${item.id}" aria-label="增加一包">＋</button></div></article>`).join('')}
         <div class="result-back"><button class="text-button" data-back>← 返回修改答案</button><button class="restore-plan" data-restore-plan>恢复系统推荐</button></div>
       </div>
-      <aside class="plan-summary"><img class="plan-box-photo" src="./assets/delivery-box-v2.png" alt="黄色猫咪鲜食试吃箱"><h3>试吃箱摘要</h3><p class="plan-count">已选 ${count} / 10 包</p><div class="price-line"><span>建议喂养</span><span>约 ${daily} 包 / 天</span></div><div class="price-line"><span>配送节奏</span><span>每 ${state.deliveryDays} 天</span></div><div class="price-line"><span>首箱原价</span><span>¥${169 + extra}</span></div><div class="price-line"><span>新客试吃优惠</span><span>− ¥50</span></div><div class="price-line"><span>冷链配送</span><span>免运费</span></div><div class="price-line total"><strong>首箱应付</strong><strong>¥${first}</strong></div><div class="price-line"><span>后续每箱</span><span>¥${renewal}</span></div><div class="price-line monthly"><span>预计月均</span><strong>¥${monthly}</strong></div><button class="button button-yellow" id="addPlan" ${count !== 10 ? 'disabled' : ''}>${count === 10 ? '加入购物袋 →' : `还需选择 ${Math.abs(10-count)} 包`}</button><p class="summary-note">演示价格，不产生真实交易。配送周期、日期、暂停与取消均可调整。</p></aside>
+      <aside class="plan-summary"><img class="plan-box-photo" src="./assets/delivery-box-v2.webp" alt="黄色猫咪鲜食试吃箱" decoding="async"><h3>试吃箱摘要</h3><p class="plan-count">已选 ${count} / 10 包</p><div class="price-line"><span>建议喂养</span><span>约 ${daily} 包 / 天</span></div><div class="price-line"><span>配送节奏</span><span>每 ${state.deliveryDays} 天</span></div><div class="price-line"><span>首箱原价</span><span>¥${169 + extra}</span></div><div class="price-line"><span>新客试吃优惠</span><span>− ¥50</span></div><div class="price-line"><span>冷链配送</span><span>免运费</span></div><div class="price-line total"><strong>首箱应付</strong><strong>¥${first}</strong></div><div class="price-line"><span>后续每箱</span><span>¥${renewal}</span></div><div class="price-line monthly"><span>预计月均</span><strong>¥${monthly}</strong></div><button class="button button-yellow" id="addPlan" ${count !== 10 ? 'disabled' : ''}>${count === 10 ? '加入购物袋 →' : `还需选择 ${Math.abs(10-count)} 包`}</button><p class="summary-note">演示价格，不产生真实交易。配送周期、日期、暂停与取消均可调整。</p></aside>
     </div>
   </section>`;
 }
@@ -759,6 +760,8 @@ document.addEventListener('click', event => {
   }
   const accountAction = event.target.closest('[data-account-action]');
   if (accountAction) openAccountAction(accountAction.dataset.accountAction);
+  const accountPlaceholder = event.target.closest('[data-account-placeholder]');
+  if (accountPlaceholder) showToast(accountPlaceholder.dataset.accountPlaceholder === 'orders' ? '演示账户暂无真实订单。' : '地址与支付将在正式服务中接入。');
   if (event.target.closest('[data-account-close]')) { $('#accountDialog').close(); unlockBody(); }
 });
 
