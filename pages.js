@@ -58,7 +58,9 @@ export function renderRoute(pathname) {
     return 'policy';
   }
 
-  return 'home';
+  document.title = '这页跑去晒太阳了｜猫小灶';
+  main.innerHTML = `<section class="not-found shell"><div><p class="eyebrow"><span></span> 404 · 没找到这一页</p><h1>这页可能，<br><em>跑去晒太阳了。</em></h1><p>布丁翻过猫碗也没有找到。你可以回到首页，或者重新开始一份猫咪餐食测评。</p><div class="not-found-actions"><a class="button button-dark button-large" href="/">返回首页</a><button class="button button-outline button-large" data-start-quiz>开始定制</button></div></div><img class="mascot-img mascot-empty" src="/assets/buding-empty-v2.webp" alt="布丁捧着空猫碗" decoding="async"></section>`;
+  return 'not-found';
 }
 
 export { recipes };

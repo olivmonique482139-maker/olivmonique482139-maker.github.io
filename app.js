@@ -1,4 +1,4 @@
-import { renderRoute, recipes as recipeLibrary } from '/pages.js?v=4';
+import { renderRoute, recipes as recipeLibrary } from '/pages.js?v=5';
 document.documentElement.classList.add('js');
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -112,7 +112,7 @@ function setProgress() {
 const stepTemplates = {
   0: () => `
     <section class="quiz-step" aria-labelledby="quizTitle">
-      <div class="quiz-cat" aria-hidden="true">ฅ^•ﻌ•^ฅ</div>
+      <div class="mascot-stage welcome-stage"><img class="mascot-img mascot-welcome" src="/assets/buding-welcome-v2.webp" alt="布丁抬起猫爪向你打招呼" decoding="async"><span class="mascot-speech">我是布丁，先认识一下它吧。</span></div>
       <p class="step-kicker">约 1 分钟 · 可随时返回</p>
       <h1 id="quizTitle">更合适的一餐，<br>从认识你的猫开始。</h1>
       <p class="step-desc">回答几个简单问题，我们会准备一箱可编辑的 10 包试吃。答案只保存在这台设备的演示站中。</p>
@@ -224,7 +224,7 @@ function nextStep() {
 function showGenerating() {
   $('#progressText').textContent = '正在生成计划';
   $('#progressBar').style.width = '96%';
-  quizContent.innerHTML = `<section class="generating" aria-labelledby="quizTitle"><div class="generating-cat" aria-hidden="true">ฅ^•ﻌ•^ฅ</div><p class="step-kicker">规则版本 DEMO-2026.08</p><h1 id="quizTitle">正在为${safeName()}配餐…</h1><div class="generation-list"><span>估算每日份量</span><span>检查蛋白偏好与风险提示</span><span>平衡首次尝试的口味</span></div></section>`;
+  quizContent.innerHTML = `<section class="generating" aria-labelledby="quizTitle"><img class="mascot-img mascot-thinking" src="/assets/buding-thinking-v2.webp" alt="" aria-hidden="true" decoding="async"><p class="step-kicker">规则版本 DEMO-2026.08</p><h1 id="quizTitle">正在为${safeName()}配餐…</h1><div class="generation-list"><span>估算每日份量</span><span>检查蛋白偏好与风险提示</span><span>平衡首次尝试的口味</span></div></section>`;
   const items = $$('.generation-list span', quizContent);
   items.forEach((item,index) => setTimeout(() => item.classList.add('done'), 350 + index * 450));
   setTimeout(() => { tunePlanFromAnswers(); state.step = 9; saveState(); renderQuiz(); }, 1850);
@@ -274,7 +274,7 @@ function resultTemplate() {
   const monthly = Math.round(renewal * 30 / state.deliveryDays);
   const slots = expandedPlan();
   return `<section class="result-step" aria-labelledby="quizTitle">
-    <div class="result-head"><p class="step-kicker">专属试吃组合 · 可继续调整</p><h1 id="quizTitle">${safeName()}的开饭计划</h1><p>根据 ${escapeHtml(state.weight)} kg 体重、口味偏好与“${goalLabels[state.goal] || '日常状态'}”目标生成的演示组合。</p><div class="plan-reason"><span>${dietLabels[state.diets[0]] || '已记录当前饮食'}</span><span>${state.picky === 'very' ? '熟悉口味优先' : '保留口味多样性'}</span><span>预计约吃 ${days} 天</span><span>非医疗建议</span></div></div>
+    <div class="result-head"><img class="mascot-img mascot-success" src="/assets/buding-success-v2.webp" alt="布丁抱着猫碗庆祝推荐完成" decoding="async"><p class="step-kicker">专属试吃组合 · 可继续调整</p><h1 id="quizTitle">${safeName()}的开饭计划</h1><p>根据 ${escapeHtml(state.weight)} kg 体重、口味偏好与“${goalLabels[state.goal] || '日常状态'}”目标生成的演示组合。</p><div class="plan-reason"><span>${dietLabels[state.diets[0]] || '已记录当前饮食'}</span><span>${state.picky === 'very' ? '熟悉口味优先' : '保留口味多样性'}</span><span>预计约吃 ${days} 天</span><span>非医疗建议</span></div></div>
     <div class="plan-config" aria-label="套餐参数">
       <div><span>日常活动量</span><div class="segmented">${[['calm','宅家'],['normal','适中'],['active','活跃']].map(([value,label])=>`<button class="${state.activity===value?'active':''}" data-plan-activity="${value}">${label}</button>`).join('')}</div><small>建议约 ${daily} 包 / 天</small></div>
       <div><span>配送节奏</span><div class="segmented">${[7,14,21].map(value=>`<button class="${state.deliveryDays===value?'active':''}" data-delivery-days="${value}">${value} 天</button>`).join('')}</div><small>续订月均约 ¥${monthly}</small></div>
@@ -335,7 +335,7 @@ function closeCart() { cartDialog.close(); unlockBody(); }
 
 function renderCart() {
   if (!cart) {
-    cartContent.innerHTML = `<div class="cart-empty"><div class="empty-icon">ฅ</div><h3>购物袋还是空的</h3><p>先认识一下你的猫咪，我们会为它搭好第一箱。</p><button class="button button-dark" data-cart-quiz>开始定制 →</button></div>`;
+    cartContent.innerHTML = `<div class="cart-empty"><img class="mascot-img mascot-empty" src="/assets/buding-empty-v2.webp" alt="布丁捧着空猫碗" decoding="async"><h3>购物袋还是空的</h3><p>先认识一下你的猫咪，我们会为它搭好第一箱。</p><button class="button button-dark" data-cart-quiz>开始定制 →</button></div>`;
     return;
   }
   cart.checkout ||= {};
