@@ -555,6 +555,103 @@ if (backgroundMusic && musicControl && musicPlayer) {
   });
 }
 
+// Cat-paw interaction layer: desktop cursor, tap stamps, magnetic controls and tactile cards.
+const pawCursor = $('#pawCursor');
+const finePointer = matchMedia('(pointer:fine) and (hover:hover)');
+const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)');
+const interactiveSelector = 'a,button,[role="button"],summary,[role="tab"],.recipe-photo,.catalog-image';
+const textInputSelector = 'input,textarea,select,[contenteditable="true"]';
+const tactileCardSelector = '.benefit-card,.recipe-card,.catalog-card,.review-cards article,.steps li,.account-grid article,.plan-item';
+const magneticSelector = '.button,.play-link,.music-control,.cart-button';
+
+if (pawCursor && finePointer.matches && !reducedMotion.matches) {
+  document.documentElement.classList.add('paw-cursor-enabled');
+  window.addEventListener('pointermove', event => {
+    pawCursor.style.left = `${event.clientX}px`;
+    pawCursor.style.top = `${event.clientY}px`;
+    pawCursor.classList.add('is-visible');
+    pawCursor.classList.toggle('is-hovering', Boolean(event.target.closest(interactiveSelector)));
+    pawCursor.classList.toggle('is-hidden', Boolean(event.target.closest(textInputSelector)));
+  }, { passive:true });
+  document.addEventListener('pointerdown', () => pawCursor.classList.add('is-pressing'));
+  document.addEventListener('pointerup', () => pawCursor.classList.remove('is-pressing'));
+  document.addEventListener('mouseout', event => { if (!event.relatedTarget) pawCursor.classList.remove('is-visible'); });
+}
+
+function addPawClickFeedback(x, y) {
+  if (reducedMotion.matches) return;
+  const oldEffects = $$('.paw-click-feedback');
+  if (oldEffects.length > 8) oldEffects[0].remove();
+  const effect = document.createElement('span');
+  effect.className = 'paw-click-feedback';
+  effect.style.left = `${x}px`;
+  effect.style.top = `${y}px`;
+  effect.innerHTML = '<i class="paw-ripple"></i>' + [
+    ['-4px','-2px','-14deg','0ms'],
+    ['14px','-18px','18deg','75ms'],
+    ['29px','-31px','-8deg','150ms']
+  ].map(([dx,dy,rotation,delay]) => `<i class="paw-stamp" style="--paw-x:${dx};--paw-y:${dy};--paw-rotation:${rotation};--paw-delay:${delay}"></i>`).join('');
+  document.body.append(effect);
+  setTimeout(() => effect.remove(), 900);
+}
+
+document.addEventListener('pointerdown', event => {
+  if (event.button !== 0 || event.target.closest(textInputSelector)) return;
+  addPawClickFeedback(event.clientX, event.clientY);
+  const pressed = event.target.closest(`${interactiveSelector},${tactileCardSelector}`);
+  if (pressed) pressed.classList.add('is-pressed');
+});
+document.addEventListener('pointerup', () => $$('.is-pressed').forEach(element => element.classList.remove('is-pressed')));
+document.addEventListener('pointercancel', () => $$('.is-pressed').forEach(element => element.classList.remove('is-pressed')));
+
+if (finePointer.matches && !reducedMotion.matches) {
+  let magneticTarget;
+  let tiltTarget;
+  document.addEventListener('pointermove', event => {
+    const nextMagnetic = event.target.closest(magneticSelector);
+    if (magneticTarget && magneticTarget !== nextMagnetic) {
+      magneticTarget.classList.remove('is-magnetic');
+      magneticTarget.style.removeProperty('--magnetic-x');
+      magneticTarget.style.removeProperty('--magnetic-y');
+    }
+    magneticTarget = nextMagnetic;
+    if (magneticTarget) {
+      const rect = magneticTarget.getBoundingClientRect();
+      magneticTarget.style.setProperty('--magnetic-x', `${((event.clientX - rect.left) / rect.width - .5) * 8}px`);
+      magneticTarget.style.setProperty('--magnetic-y', `${((event.clientY - rect.top) / rect.height - .5) * 6}px`);
+      magneticTarget.classList.add('is-magnetic');
+    }
+
+    const nextTilt = event.target.closest(tactileCardSelector);
+    if (tiltTarget && tiltTarget !== nextTilt) {
+      tiltTarget.classList.remove('is-tilting');
+      tiltTarget.style.removeProperty('--tilt-x');
+      tiltTarget.style.removeProperty('--tilt-y');
+    }
+    tiltTarget = nextTilt;
+    if (tiltTarget) {
+      const rect = tiltTarget.getBoundingClientRect();
+      tiltTarget.style.setProperty('--tilt-x', `${((event.clientY - rect.top) / rect.height - .5) * -3.2}deg`);
+      tiltTarget.style.setProperty('--tilt-y', `${((event.clientX - rect.left) / rect.width - .5) * 3.2}deg`);
+      tiltTarget.classList.add('is-tilting');
+    }
+  }, { passive:true });
+  document.addEventListener('pointerout', event => {
+    if (magneticTarget && !magneticTarget.contains(event.relatedTarget)) {
+      magneticTarget.classList.remove('is-magnetic');
+      magneticTarget.style.removeProperty('--magnetic-x');
+      magneticTarget.style.removeProperty('--magnetic-y');
+      magneticTarget = null;
+    }
+    if (tiltTarget && !tiltTarget.contains(event.relatedTarget)) {
+      tiltTarget.classList.remove('is-tilting');
+      tiltTarget.style.removeProperty('--tilt-x');
+      tiltTarget.style.removeProperty('--tilt-y');
+      tiltTarget = null;
+    }
+  });
+}
+
 window.addEventListener('scroll', () => $('.site-header').classList.toggle('scrolled', scrollY > 18), {passive:true});
 
 $('#newsletterForm').addEventListener('submit', event => { event.preventDefault(); event.target.reset(); showToast('订阅成功，下一封鲜报见。'); });

@@ -259,3 +259,37 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 @keyframes music-wave{from{transform:scaleY(.45)}to{transform:scaleY(1)}}
 @media(max-width:767px){.music-player{right:14px;bottom:14px;padding:5px}.music-player .music-meta,.music-player.is-playing .music-meta{display:none}.music-control{width:46px;height:46px;min-height:46px;padding:0;justify-content:center}.music-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 @media(prefers-reduced-motion:reduce){.music-player,.music-meta{transition:none}.music-player.is-playing .music-equalizer i{animation:none}}
+
+/* V4.2 cat-paw interaction language */
+.paw-cursor{position:fixed;left:0;top:0;width:30px;height:30px;z-index:9999;pointer-events:none;opacity:0;color:var(--peach);filter:drop-shadow(0 2px 0 rgba(23,19,16,.95)) drop-shadow(0 5px 7px rgba(23,19,16,.22));transform:translate(-34%,-30%) rotate(-14deg) scale(.82);transition:opacity .14s ease,transform .16s cubic-bezier(.2,.8,.2,1),filter .16s ease}
+.paw-cursor::before{content:"";position:absolute;left:8px;top:13px;width:14px;height:12px;border-radius:58% 58% 48% 48%;background:currentColor;transform:rotate(2deg)}
+.paw-cursor::after{content:"";position:absolute;left:2px;top:7px;width:6px;height:7px;border-radius:55%;background:currentColor;box-shadow:7px -4px 0 currentColor,14px -3px 0 currentColor,20px 2px 0 currentColor}
+.paw-cursor.is-visible{opacity:1;transform:translate(-34%,-30%) rotate(-14deg) scale(1)}
+.paw-cursor.is-hovering{color:var(--yellow);transform:translate(-34%,-30%) rotate(8deg) scale(1.22);filter:drop-shadow(0 2px 0 rgba(23,19,16,.95)) drop-shadow(0 0 9px rgba(255,223,56,.72))}
+.paw-cursor.is-pressing{transform:translate(-34%,-30%) rotate(2deg) scale(.72)}
+.paw-cursor.is-hidden{opacity:0}
+@media(pointer:fine) and (hover:hover){
+  .paw-cursor-enabled body,.paw-cursor-enabled a,.paw-cursor-enabled button,.paw-cursor-enabled summary,.paw-cursor-enabled [role="button"],.paw-cursor-enabled [role="tab"]{cursor:none!important}
+  .paw-cursor-enabled input,.paw-cursor-enabled textarea,.paw-cursor-enabled select,.paw-cursor-enabled [contenteditable="true"]{cursor:text!important}
+}
+
+.paw-click-feedback{position:fixed;width:1px;height:1px;z-index:9998;pointer-events:none;color:var(--orange)}
+.paw-ripple{position:absolute;left:0;top:0;width:18px;height:18px;border:2px solid rgba(255,223,56,.9);border-radius:50%;transform:translate(-50%,-50%);animation:paw-ripple .58s ease-out both}
+.paw-stamp{position:absolute;left:0;top:0;width:18px;height:18px;color:var(--orange);opacity:0;transform:translate(var(--paw-x),var(--paw-y)) rotate(var(--paw-rotation)) scale(.35);animation:paw-hop .62s cubic-bezier(.16,.84,.26,1.18) var(--paw-delay) both}
+.paw-stamp::before{content:"";position:absolute;left:5px;top:8px;width:9px;height:8px;border-radius:58% 58% 47% 47%;background:currentColor}
+.paw-stamp::after{content:"";position:absolute;left:1px;top:4px;width:4px;height:5px;border-radius:55%;background:currentColor;box-shadow:5px -3px 0 currentColor,10px -2px 0 currentColor,14px 2px 0 currentColor}
+@keyframes paw-ripple{from{opacity:1;transform:translate(-50%,-50%) scale(.3)}to{opacity:0;transform:translate(-50%,-50%) scale(2.8)}}
+@keyframes paw-hop{0%{opacity:0;transform:translate(0,0) rotate(var(--paw-rotation)) scale(.2)}35%{opacity:1}70%{opacity:.9;transform:translate(var(--paw-x),var(--paw-y)) rotate(var(--paw-rotation)) scale(1)}100%{opacity:0;transform:translate(var(--paw-x),calc(var(--paw-y) - 7px)) rotate(var(--paw-rotation)) scale(.72)}}
+
+.is-magnetic{transform:translate(var(--magnetic-x,0),var(--magnetic-y,0))!important;transition:transform .12s ease-out,box-shadow .2s,background .2s}
+.is-tilting{transform:perspective(850px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(-5px)!important;box-shadow:0 20px 45px rgba(38,24,14,.16);transition:transform .1s linear,box-shadow .25s ease!important;transform-style:preserve-3d}
+.is-pressed{transform:translateY(2px) scale(.975)!important;box-shadow:0 3px 0 rgba(23,19,16,.85)!important;transition:transform .08s ease,box-shadow .08s ease!important}
+.choice,.palette-item,.delivery-options button,.slot-options button,.payment-options button,.segmented button{position:relative}
+.choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before{content:"";position:absolute;right:-8px;top:-10px;width:23px;height:23px;border:1px solid var(--ink);border-radius:50%;background:radial-gradient(ellipse at 50% 68%,var(--wine) 0 23%,transparent 25%),radial-gradient(circle at 24% 38%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 43% 24%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 64% 26%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 79% 43%,var(--wine) 0 10%,transparent 12%),var(--paper);box-shadow:2px 2px 0 var(--ink);animation:paw-stamp-in .28s cubic-bezier(.2,.9,.3,1.35) both}
+.benefit-card.expanded::before{content:"";position:absolute;left:20px;top:18px;z-index:3;width:29px;height:29px;border:1px solid #fff;border-radius:50%;background:radial-gradient(ellipse at 50% 68%,var(--yellow) 0 23%,transparent 25%),radial-gradient(circle at 24% 38%,var(--yellow) 0 10%,transparent 12%),radial-gradient(circle at 43% 24%,var(--yellow) 0 10%,transparent 12%),radial-gradient(circle at 64% 26%,var(--yellow) 0 10%,transparent 12%),radial-gradient(circle at 79% 43%,var(--yellow) 0 10%,transparent 12%),var(--wine);animation:paw-stamp-in .28s cubic-bezier(.2,.9,.3,1.35) both}
+@keyframes paw-stamp-in{from{opacity:0;transform:scale(1.8) rotate(-18deg)}to{opacity:1;transform:scale(1) rotate(8deg)}}
+.brand:hover .brand-mark::before{animation:cat-ear-left .36s ease}.brand:hover .brand-mark::after{animation:cat-ear-right .36s ease}
+@keyframes cat-ear-left{50%{transform:rotate(32deg) translate(-1px,-2px)}}@keyframes cat-ear-right{50%{transform:rotate(58deg) translate(1px,-2px)}}
+
+@media(max-width:767px){.paw-cursor{display:none}.is-tilting{transform:none!important}.is-pressed{transform:scale(.97)!important}.paw-stamp{color:var(--wine)}}
+@media(prefers-reduced-motion:reduce){.paw-cursor,.paw-click-feedback{display:none!important}.is-magnetic,.is-tilting,.is-pressed{transform:none!important}.choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before,.benefit-card.expanded::before{animation:none}.brand:hover .brand-mark::before,.brand:hover .brand-mark::after{animation:none}}
