@@ -260,20 +260,14 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 @media(max-width:767px){.music-player{right:14px;bottom:14px;padding:5px}.music-player .music-meta,.music-player.is-playing .music-meta{display:none}.music-control{width:46px;height:46px;min-height:46px;padding:0;justify-content:center}.music-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 @media(prefers-reduced-motion:reduce){.music-player,.music-meta{transition:none}.music-player.is-playing .music-equalizer i{animation:none}}
 
-/* V4.2 cat-paw interaction language */
-.paw-cursor{position:fixed;left:0;top:0;width:30px;height:30px;z-index:9999;pointer-events:none;opacity:0;color:var(--peach);filter:drop-shadow(0 2px 0 rgba(23,19,16,.95)) drop-shadow(0 5px 7px rgba(23,19,16,.22));transform:translate(-34%,-30%) rotate(-14deg) scale(.82);transition:opacity .14s ease,transform .16s cubic-bezier(.2,.8,.2,1),filter .16s ease}
-.paw-cursor::before{content:"";position:absolute;left:8px;top:13px;width:14px;height:12px;border-radius:58% 58% 48% 48%;background:currentColor;transform:rotate(2deg)}
-.paw-cursor::after{content:"";position:absolute;left:2px;top:7px;width:6px;height:7px;border-radius:55%;background:currentColor;box-shadow:7px -4px 0 currentColor,14px -3px 0 currentColor,20px 2px 0 currentColor}
-.paw-cursor.is-visible{opacity:1;transform:translate(-34%,-30%) rotate(-14deg) scale(1)}
-.paw-cursor.is-hovering{color:var(--yellow);transform:translate(-34%,-30%) rotate(8deg) scale(1.22);filter:drop-shadow(0 2px 0 rgba(23,19,16,.95)) drop-shadow(0 0 9px rgba(255,223,56,.72))}
-.paw-cursor.is-pressing{transform:translate(-34%,-30%) rotate(2deg) scale(.72)}
-.paw-cursor.is-hidden{opacity:0}
+/* V4.3 lightweight cat-paw interaction language */
 @media(pointer:fine) and (hover:hover){
-  .paw-cursor-enabled body,.paw-cursor-enabled a,.paw-cursor-enabled button,.paw-cursor-enabled summary,.paw-cursor-enabled [role="button"],.paw-cursor-enabled [role="tab"]{cursor:none!important}
-  .paw-cursor-enabled input,.paw-cursor-enabled textarea,.paw-cursor-enabled select,.paw-cursor-enabled [contenteditable="true"]{cursor:text!important}
+  html,body,dialog{cursor:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E%3Cg fill=%22%23f2b58e%22 stroke=%22%23171310%22 stroke-width=%221.5%22%3E%3Cellipse cx=%2215.5%22 cy=%2220.5%22 rx=%227%22 ry=%226%22/%3E%3Ccircle cx=%226.5%22 cy=%2211%22 r=%223.2%22/%3E%3Ccircle cx=%2213%22 cy=%226.5%22 r=%223.2%22/%3E%3Ccircle cx=%2220.5%22 cy=%227.5%22 r=%223.2%22/%3E%3Ccircle cx=%2226%22 cy=%2213%22 r=%223.2%22/%3E%3C/g%3E%3C/svg%3E") 7 6,auto}
+  a,button,[role="button"],summary,[role="tab"],.recipe-photo,.catalog-image{cursor:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E%3Cg fill=%22%23ffdf38%22 stroke=%22%23171310%22 stroke-width=%221.5%22%3E%3Cellipse cx=%2215.5%22 cy=%2220.5%22 rx=%227%22 ry=%226%22/%3E%3Ccircle cx=%226.5%22 cy=%2211%22 r=%223.2%22/%3E%3Ccircle cx=%2213%22 cy=%226.5%22 r=%223.2%22/%3E%3Ccircle cx=%2220.5%22 cy=%227.5%22 r=%223.2%22/%3E%3Ccircle cx=%2226%22 cy=%2213%22 r=%223.2%22/%3E%3C/g%3E%3C/svg%3E") 7 6,pointer!important}
+  input,textarea,select,[contenteditable="true"]{cursor:text!important}
 }
 
-.paw-click-feedback{position:fixed;width:1px;height:1px;z-index:9998;pointer-events:none;color:var(--orange)}
+.paw-click-feedback{position:fixed;width:1px;height:1px;z-index:9998;pointer-events:none;color:var(--orange);contain:strict}
 .paw-ripple{position:absolute;left:0;top:0;width:18px;height:18px;border:2px solid rgba(255,223,56,.9);border-radius:50%;transform:translate(-50%,-50%);animation:paw-ripple .58s ease-out both}
 .paw-stamp{position:absolute;left:0;top:0;width:18px;height:18px;color:var(--orange);opacity:0;transform:translate(var(--paw-x),var(--paw-y)) rotate(var(--paw-rotation)) scale(.35);animation:paw-hop .62s cubic-bezier(.16,.84,.26,1.18) var(--paw-delay) both}
 .paw-stamp::before{content:"";position:absolute;left:5px;top:8px;width:9px;height:8px;border-radius:58% 58% 47% 47%;background:currentColor}
@@ -281,8 +275,6 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 @keyframes paw-ripple{from{opacity:1;transform:translate(-50%,-50%) scale(.3)}to{opacity:0;transform:translate(-50%,-50%) scale(2.8)}}
 @keyframes paw-hop{0%{opacity:0;transform:translate(0,0) rotate(var(--paw-rotation)) scale(.2)}35%{opacity:1}70%{opacity:.9;transform:translate(var(--paw-x),var(--paw-y)) rotate(var(--paw-rotation)) scale(1)}100%{opacity:0;transform:translate(var(--paw-x),calc(var(--paw-y) - 7px)) rotate(var(--paw-rotation)) scale(.72)}}
 
-.is-magnetic{transform:translate(var(--magnetic-x,0),var(--magnetic-y,0))!important;transition:transform .12s ease-out,box-shadow .2s,background .2s}
-.is-tilting{transform:perspective(850px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(-5px)!important;box-shadow:0 20px 45px rgba(38,24,14,.16);transition:transform .1s linear,box-shadow .25s ease!important;transform-style:preserve-3d}
 .is-pressed{transform:translateY(2px) scale(.975)!important;box-shadow:0 3px 0 rgba(23,19,16,.85)!important;transition:transform .08s ease,box-shadow .08s ease!important}
 .choice,.palette-item,.delivery-options button,.slot-options button,.payment-options button,.segmented button{position:relative}
 .choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before{content:"";position:absolute;right:-8px;top:-10px;width:23px;height:23px;border:1px solid var(--ink);border-radius:50%;background:radial-gradient(ellipse at 50% 68%,var(--wine) 0 23%,transparent 25%),radial-gradient(circle at 24% 38%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 43% 24%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 64% 26%,var(--wine) 0 10%,transparent 12%),radial-gradient(circle at 79% 43%,var(--wine) 0 10%,transparent 12%),var(--paper);box-shadow:2px 2px 0 var(--ink);animation:paw-stamp-in .28s cubic-bezier(.2,.9,.3,1.35) both}
@@ -291,5 +283,10 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 .brand:hover .brand-mark::before{animation:cat-ear-left .36s ease}.brand:hover .brand-mark::after{animation:cat-ear-right .36s ease}
 @keyframes cat-ear-left{50%{transform:rotate(32deg) translate(-1px,-2px)}}@keyframes cat-ear-right{50%{transform:rotate(58deg) translate(1px,-2px)}}
 
-@media(max-width:767px){.paw-cursor{display:none}.is-tilting{transform:none!important}.is-pressed{transform:scale(.97)!important}.paw-stamp{color:var(--wine)}}
-@media(prefers-reduced-motion:reduce){.paw-cursor,.paw-click-feedback{display:none!important}.is-magnetic,.is-tilting,.is-pressed{transform:none!important}.choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before,.benefit-card.expanded::before{animation:none}.brand:hover .brand-mark::before,.brand:hover .brand-mark::after{animation:none}}
+/* Fixed translucent layers and multi-thumbnail filters are expensive while scrolling. */
+.site-header,.site-header.scrolled,.music-player,dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.cat-mosaic button{transition:transform .28s ease,opacity .28s ease}
+.cat-mosaic:hover button:not(:hover){filter:none;opacity:.72}
+
+@media(max-width:767px){.is-pressed{transform:scale(.97)!important}.paw-stamp{color:var(--wine)}}
+@media(prefers-reduced-motion:reduce){.paw-click-feedback{display:none!important}.is-pressed{transform:none!important}.choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before,.benefit-card.expanded::before{animation:none}.brand:hover .brand-mark::before,.brand:hover .brand-mark::after{animation:none}}

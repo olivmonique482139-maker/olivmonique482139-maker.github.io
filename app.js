@@ -71,8 +71,23 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
-function lockBody() { document.body.classList.add('no-scroll'); }
-function unlockBody() { if (!$$('dialog').some(dialog => dialog.open)) document.body.classList.remove('no-scroll'); }
+function lockBody() {
+  document.body.classList.add('no-scroll');
+  const video = $('#heroVideo');
+  if (video && !video.paused) {
+    video.dataset.modalPaused = 'true';
+    video.pause();
+  }
+}
+function unlockBody() {
+  if ($$('dialog').some(dialog => dialog.open)) return;
+  document.body.classList.remove('no-scroll');
+  const video = $('#heroVideo');
+  if (video?.dataset.modalPaused === 'true' && video.dataset.userPaused !== 'true' && video.dataset.autoPaused !== 'true' && !document.hidden) {
+    delete video.dataset.modalPaused;
+    video.play().catch(() => {});
+  }
+}
 
 function openQuiz() {
   if (state.step >= 9) state.step = 9;
@@ -482,26 +497,74 @@ $$('[data-scroll]').forEach(button => button.addEventListener('click', () => $(b
 const heroVideo = $('#heroVideo');
 const videoControl = $('#videoControl');
 if (heroVideo && videoControl) {
-  videoControl.addEventListener('click', () => {
+  let videoPausedByUser = false;
+  const setVideoControlState = playing => {
     const icon = videoControl.querySelector('span');
     const label = videoControl.querySelector('em');
-    if (heroVideo.paused) {
-      heroVideo.play();
-      if (icon) icon.textContent = 'Ⅱ';
-      if (label) label.textContent = '暂停画面';
-      videoControl.setAttribute('aria-label','暂停视频');
-    } else {
+    if (icon) icon.textContent = playing ? 'Ⅱ' : '▶';
+    if (label) label.textContent = playing ? '暂停画面' : '播放画面';
+    videoControl.setAttribute('aria-label', playing ? '暂停视频' : '播放视频');
+  };
+  const resumeHeroVideo = async () => {
+    if ($$('dialog').some(dialog => dialog.open)) {
+      heroVideo.dataset.modalPaused = 'true';
+      return;
+    }
+    try {
+      await heroVideo.play();
+      setVideoControlState(true);
+    } catch {
+      setVideoControlState(false);
+    }
+  };
+  heroVideo.addEventListener('play', () => {
+    if ($$('dialog').some(dialog => dialog.open)) {
+      heroVideo.dataset.modalPaused = 'true';
       heroVideo.pause();
-      if (icon) icon.textContent = '▶';
-      if (label) label.textContent = '播放画面';
-      videoControl.setAttribute('aria-label','播放视频');
+      return;
+    }
+    setVideoControlState(true);
+  });
+  heroVideo.addEventListener('pause', () => setVideoControlState(false));
+  videoControl.addEventListener('click', () => {
+    if (heroVideo.paused) {
+      videoPausedByUser = false;
+      delete heroVideo.dataset.userPaused;
+      delete heroVideo.dataset.autoPaused;
+      resumeHeroVideo();
+    } else {
+      videoPausedByUser = true;
+      heroVideo.dataset.userPaused = 'true';
+      heroVideo.pause();
+      setVideoControlState(false);
     }
   });
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    videoPausedByUser = true;
+    heroVideo.dataset.userPaused = 'true';
     heroVideo.pause();
-    videoControl.querySelector('span').textContent = '▶';
-    videoControl.querySelector('em').textContent = '播放画面';
-    videoControl.setAttribute('aria-label','播放视频');
+    setVideoControlState(false);
+  } else {
+    const pauseOffscreenVideo = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && !heroVideo.paused) {
+        heroVideo.dataset.autoPaused = 'true';
+        heroVideo.pause();
+        setVideoControlState(false);
+      } else if (entry.isIntersecting && heroVideo.dataset.autoPaused === 'true' && !videoPausedByUser && !document.hidden && !$$('dialog').some(dialog => dialog.open)) {
+        delete heroVideo.dataset.autoPaused;
+        resumeHeroVideo();
+      }
+    }, { threshold:.05 });
+    pauseOffscreenVideo.observe(heroVideo);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && !heroVideo.paused) {
+        heroVideo.dataset.autoPaused = 'true';
+        heroVideo.pause();
+      } else if (!document.hidden && heroVideo.dataset.autoPaused === 'true' && !videoPausedByUser && !$$('dialog').some(dialog => dialog.open)) {
+        delete heroVideo.dataset.autoPaused;
+        resumeHeroVideo();
+      }
+    });
   }
 }
 
@@ -555,33 +618,16 @@ if (backgroundMusic && musicControl && musicPlayer) {
   });
 }
 
-// Cat-paw interaction layer: desktop cursor, tap stamps, magnetic controls and tactile cards.
-const pawCursor = $('#pawCursor');
-const finePointer = matchMedia('(pointer:fine) and (hover:hover)');
+// Cat-paw interaction layer: native custom cursor plus lightweight tap feedback.
 const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)');
 const interactiveSelector = 'a,button,[role="button"],summary,[role="tab"],.recipe-photo,.catalog-image';
 const textInputSelector = 'input,textarea,select,[contenteditable="true"]';
 const tactileCardSelector = '.benefit-card,.recipe-card,.catalog-card,.review-cards article,.steps li,.account-grid article,.plan-item';
-const magneticSelector = '.button,.play-link,.music-control,.cart-button';
 
-if (pawCursor && finePointer.matches && !reducedMotion.matches) {
-  document.documentElement.classList.add('paw-cursor-enabled');
-  window.addEventListener('pointermove', event => {
-    pawCursor.style.left = `${event.clientX}px`;
-    pawCursor.style.top = `${event.clientY}px`;
-    pawCursor.classList.add('is-visible');
-    pawCursor.classList.toggle('is-hovering', Boolean(event.target.closest(interactiveSelector)));
-    pawCursor.classList.toggle('is-hidden', Boolean(event.target.closest(textInputSelector)));
-  }, { passive:true });
-  document.addEventListener('pointerdown', () => pawCursor.classList.add('is-pressing'));
-  document.addEventListener('pointerup', () => pawCursor.classList.remove('is-pressing'));
-  document.addEventListener('mouseout', event => { if (!event.relatedTarget) pawCursor.classList.remove('is-visible'); });
-}
-
-function addPawClickFeedback(x, y) {
+function addPawClickFeedback(x, y, host = document.body) {
   if (reducedMotion.matches) return;
   const oldEffects = $$('.paw-click-feedback');
-  if (oldEffects.length > 8) oldEffects[0].remove();
+  if (oldEffects.length >= 4) oldEffects[0].remove();
   const effect = document.createElement('span');
   effect.className = 'paw-click-feedback';
   effect.style.left = `${x}px`;
@@ -591,68 +637,20 @@ function addPawClickFeedback(x, y) {
     ['14px','-18px','18deg','75ms'],
     ['29px','-31px','-8deg','150ms']
   ].map(([dx,dy,rotation,delay]) => `<i class="paw-stamp" style="--paw-x:${dx};--paw-y:${dy};--paw-rotation:${rotation};--paw-delay:${delay}"></i>`).join('');
-  document.body.append(effect);
-  setTimeout(() => effect.remove(), 900);
+  host.append(effect);
+  setTimeout(() => effect.remove(), 720);
 }
 
 document.addEventListener('pointerdown', event => {
-  if (event.button !== 0 || event.target.closest(textInputSelector)) return;
-  addPawClickFeedback(event.clientX, event.clientY);
+  if (event.button !== 0 || !event.isPrimary || event.target.closest(textInputSelector)) return;
   const pressed = event.target.closest(`${interactiveSelector},${tactileCardSelector}`);
-  if (pressed) pressed.classList.add('is-pressed');
+  if (!pressed) return;
+  const host = event.target.closest('dialog[open]') || document.body;
+  addPawClickFeedback(event.clientX, event.clientY, host);
+  pressed.classList.add('is-pressed');
 });
 document.addEventListener('pointerup', () => $$('.is-pressed').forEach(element => element.classList.remove('is-pressed')));
 document.addEventListener('pointercancel', () => $$('.is-pressed').forEach(element => element.classList.remove('is-pressed')));
-
-if (finePointer.matches && !reducedMotion.matches) {
-  let magneticTarget;
-  let tiltTarget;
-  document.addEventListener('pointermove', event => {
-    const nextMagnetic = event.target.closest(magneticSelector);
-    if (magneticTarget && magneticTarget !== nextMagnetic) {
-      magneticTarget.classList.remove('is-magnetic');
-      magneticTarget.style.removeProperty('--magnetic-x');
-      magneticTarget.style.removeProperty('--magnetic-y');
-    }
-    magneticTarget = nextMagnetic;
-    if (magneticTarget) {
-      const rect = magneticTarget.getBoundingClientRect();
-      magneticTarget.style.setProperty('--magnetic-x', `${((event.clientX - rect.left) / rect.width - .5) * 8}px`);
-      magneticTarget.style.setProperty('--magnetic-y', `${((event.clientY - rect.top) / rect.height - .5) * 6}px`);
-      magneticTarget.classList.add('is-magnetic');
-    }
-
-    const nextTilt = event.target.closest(tactileCardSelector);
-    if (tiltTarget && tiltTarget !== nextTilt) {
-      tiltTarget.classList.remove('is-tilting');
-      tiltTarget.style.removeProperty('--tilt-x');
-      tiltTarget.style.removeProperty('--tilt-y');
-    }
-    tiltTarget = nextTilt;
-    if (tiltTarget) {
-      const rect = tiltTarget.getBoundingClientRect();
-      tiltTarget.style.setProperty('--tilt-x', `${((event.clientY - rect.top) / rect.height - .5) * -3.2}deg`);
-      tiltTarget.style.setProperty('--tilt-y', `${((event.clientX - rect.left) / rect.width - .5) * 3.2}deg`);
-      tiltTarget.classList.add('is-tilting');
-    }
-  }, { passive:true });
-  document.addEventListener('pointerout', event => {
-    if (magneticTarget && !magneticTarget.contains(event.relatedTarget)) {
-      magneticTarget.classList.remove('is-magnetic');
-      magneticTarget.style.removeProperty('--magnetic-x');
-      magneticTarget.style.removeProperty('--magnetic-y');
-      magneticTarget = null;
-    }
-    if (tiltTarget && !tiltTarget.contains(event.relatedTarget)) {
-      tiltTarget.classList.remove('is-tilting');
-      tiltTarget.style.removeProperty('--tilt-x');
-      tiltTarget.style.removeProperty('--tilt-y');
-      tiltTarget = null;
-    }
-  });
-}
-
-window.addEventListener('scroll', () => $('.site-header').classList.toggle('scrolled', scrollY > 18), {passive:true});
 
 $('#newsletterForm').addEventListener('submit', event => { event.preventDefault(); event.target.reset(); showToast('订阅成功，下一封鲜报见。'); });
 $('.account-button').addEventListener('click', () => { location.href = '/account'; });
@@ -682,18 +680,6 @@ $$('[data-benefit]').forEach(card => {
   card.addEventListener('click', toggle);
   card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
 });
-
-const parallaxCard = $('[data-parallax-card]');
-if (parallaxCard && matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
-  parallaxCard.addEventListener('pointermove', event => {
-    const rect = parallaxCard.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - .5;
-    const y = (event.clientY - rect.top) / rect.height - .5;
-    parallaxCard.classList.add('parallax-active');
-    parallaxCard.style.transform = `perspective(900px) rotateY(${x * 3}deg) rotateX(${y * -3}deg) translateY(-2px)`;
-  });
-  parallaxCard.addEventListener('pointerleave', () => { parallaxCard.classList.remove('parallax-active'); parallaxCard.style.transform = ''; });
-}
 
 function openRecipe(id) {
   const recipe = recipeLibrary[id] || recipeLibrary.chicken;
@@ -796,11 +782,18 @@ document.addEventListener('click', event => {
   if (event.target.closest('[data-account-profile]')) { $('#accountDialog').close(); state.step = 1; saveState(); openQuiz(); }
 });
 
-window.addEventListener('scroll', () => {
+let viewportUpdateFrame = 0;
+function updateViewportEffects() {
+  viewportUpdateFrame = 0;
+  $('.site-header')?.classList.toggle('scrolled', scrollY > 18);
   const max = document.documentElement.scrollHeight - innerHeight;
   const progress = max > 0 ? Math.min(100,scrollY / max * 100) : 0;
   const paw = $('#pawProgress'); if (paw) paw.style.top = `${progress}%`;
+}
+window.addEventListener('scroll', () => {
+  if (!viewportUpdateFrame) viewportUpdateFrame = requestAnimationFrame(updateViewportEffects);
 }, {passive:true});
+updateViewportEffects();
 
 [recipeDialog,galleryDialog].forEach(dialog => dialog.addEventListener('click', event => { if (event.target === dialog) { dialog.close(); unlockBody(); } }));
 
