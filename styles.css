@@ -242,3 +242,20 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
   .hero-cinematic .scroll-cue{display:none}
 }
 @media(prefers-reduced-motion:reduce){.hero-cinematic .hero-media video{transform:none!important}}
+
+/* Opt-in background music */
+.music-player{position:fixed;right:22px;bottom:22px;z-index:45;display:flex;align-items:center;gap:12px;padding:7px 7px 7px 16px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(23,19,16,.84);color:#fff;box-shadow:0 14px 38px rgba(23,19,16,.2);backdrop-filter:blur(16px);transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
+.music-player:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(23,19,16,.25)}
+.music-player.is-playing{background:rgba(87,29,53,.92)}
+.music-meta{display:grid;line-height:1.15;max-width:0;opacity:0;overflow:hidden;transition:max-width .4s ease,opacity .3s ease}
+.music-player.is-playing .music-meta{max-width:120px;opacity:1}
+.music-meta strong{font-size:11px;white-space:nowrap}.music-meta small{font-size:8px;white-space:nowrap;color:rgba(255,255,255,.62);margin-top:3px}
+.music-control{border:0;border-radius:999px;min-height:42px;padding:0 14px;display:flex;align-items:center;gap:9px;background:var(--yellow);color:var(--ink);cursor:pointer;font-weight:900}
+.music-control:hover{background:#ffe65f}.music-label{font-size:11px;white-space:nowrap}
+.music-equalizer{width:16px;height:16px;display:flex;align-items:center;justify-content:center;gap:2px}
+.music-equalizer i{display:block;width:2px;height:5px;border-radius:99px;background:currentColor;transform-origin:center}
+.music-player.is-playing .music-equalizer i{animation:music-wave .8s ease-in-out infinite alternate}
+.music-player.is-playing .music-equalizer i:nth-child(2){animation-delay:-.5s;height:12px}.music-player.is-playing .music-equalizer i:nth-child(3){animation-delay:-.25s;height:8px}
+@keyframes music-wave{from{transform:scaleY(.45)}to{transform:scaleY(1)}}
+@media(max-width:767px){.music-player{right:14px;bottom:14px;padding:5px}.music-player .music-meta,.music-player.is-playing .music-meta{display:none}.music-control{width:46px;height:46px;min-height:46px;padding:0;justify-content:center}.music-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+@media(prefers-reduced-motion:reduce){.music-player,.music-meta{transition:none}.music-player.is-playing .music-equalizer i{animation:none}}

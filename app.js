@@ -505,6 +505,56 @@ if (heroVideo && videoControl) {
   }
 }
 
+const backgroundMusic = $('#backgroundMusic');
+const musicControl = $('#musicControl');
+const musicPlayer = $('#musicPlayer');
+let musicFadeFrame;
+
+function fadeMusic(target, duration = 650, pauseAfter = false) {
+  cancelAnimationFrame(musicFadeFrame);
+  const start = backgroundMusic.volume;
+  const startedAt = performance.now();
+  const tick = now => {
+    const progress = Math.min((now - startedAt) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    backgroundMusic.volume = start + (target - start) * eased;
+    if (progress < 1) musicFadeFrame = requestAnimationFrame(tick);
+    else if (pauseAfter) backgroundMusic.pause();
+  };
+  musicFadeFrame = requestAnimationFrame(tick);
+}
+
+function setMusicState(playing) {
+  musicControl.setAttribute('aria-pressed', String(playing));
+  musicControl.setAttribute('aria-label', playing ? '暂停背景音乐' : '播放背景音乐');
+  musicControl.querySelector('.music-label').textContent = playing ? '音乐播放中' : '开启音乐';
+  musicPlayer.classList.toggle('is-playing', playing);
+}
+
+if (backgroundMusic && musicControl && musicPlayer) {
+  backgroundMusic.volume = 0;
+  musicControl.addEventListener('click', async () => {
+    if (!backgroundMusic.paused) {
+      setMusicState(false);
+      fadeMusic(0, 420, true);
+      return;
+    }
+    try {
+      backgroundMusic.volume = 0;
+      await backgroundMusic.play();
+      setMusicState(true);
+      fadeMusic(0.1, 800);
+    } catch {
+      setMusicState(false);
+      showToast('浏览器暂时没有允许播放，请再点一次音乐按钮。');
+    }
+  });
+  backgroundMusic.addEventListener('error', () => {
+    setMusicState(false);
+    showToast('背景音乐暂时加载失败，请稍后重试。');
+  });
+}
+
 window.addEventListener('scroll', () => $('.site-header').classList.toggle('scrolled', scrollY > 18), {passive:true});
 
 $('#newsletterForm').addEventListener('submit', event => { event.preventDefault(); event.target.reset(); showToast('订阅成功，下一封鲜报见。'); });

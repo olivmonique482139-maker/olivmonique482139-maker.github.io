@@ -13,7 +13,7 @@
   <meta name="theme-color" content="#f7f1e7">
   <title>猫小灶｜猫咪鲜食订阅</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css?v=10">
+  <link rel="stylesheet" href="/styles.css?v=11">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -305,7 +305,21 @@
 
   <div class="paw-progress" aria-hidden="true"><span id="pawProgress">🐾</span></div>
 
+  <div class="music-player" id="musicPlayer">
+    <div class="music-meta" aria-hidden="true">
+      <strong>fluffy</strong>
+      <small>HarumachiMusic</small>
+    </div>
+    <button class="music-control" id="musicControl" type="button" aria-label="播放背景音乐" aria-pressed="false">
+      <span class="music-equalizer" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="music-label">开启音乐</span>
+    </button>
+  </div>
+  <audio id="backgroundMusic" loop preload="none">
+    <source src="/assets/fluffy-cute-piano.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="/app.js?v=7" type="module"></script>
+  <script src="/app.js?v=8" type="module"></script>
 </body>
 </html>
