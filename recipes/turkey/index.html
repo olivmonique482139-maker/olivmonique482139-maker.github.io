@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="猫小灶猫咪鲜食订阅——用一分钟了解猫咪，为它定制新鲜、透明、好调整的一餐。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="猫小灶｜猫咪鲜食订阅">
+  <meta property="og:description" content="用一分钟了解猫咪，为它配好一箱真正吃得明白的新鲜餐食。">
+  <meta property="og:image" content="https://olivmonique482139-maker.github.io/assets/cat-grid.png">
+  <meta property="og:url" content="https://olivmonique482139-maker.github.io/">
+  <meta name="theme-color" content="#f7f1e7">
+  <title>猫小灶｜猫咪鲜食订阅</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=10">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="promo" role="status">
+    <span>新客试吃免运费</span>
+    <span class="promo-dot" aria-hidden="true"></span>
+    <button class="text-button" data-start-quiz>花 1 分钟定制</button>
+  </div>
+
+  <header class="site-header" id="top">
+    <nav class="nav shell" aria-label="主导航">
+      <button class="menu-button" id="menuButton" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+      <a class="brand" href="/" aria-label="猫小灶首页">
+        <span class="brand-mark" aria-hidden="true">猫</span>
+        <span>猫小灶<small>MAO'S KITCHEN</small></span>
+      </a>
+      <div class="nav-links" aria-label="页面栏目">
+        <a href="/why-us">为什么鲜食</a>
+        <a href="/recipes">今日菜单</a>
+        <a href="/#how">如何订阅</a>
+        <a href="/account">我的订阅</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-button account-button" aria-label="账户（演示）">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg>
+        </button>
+        <button class="cart-button" id="cartButton" aria-label="打开购物袋">
+          购物袋 <span id="cartCount">0</span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="/why-us">为什么鲜食</a>
+      <a href="/recipes">今日菜单</a>
+      <a href="/#how">如何订阅</a>
+      <a href="/account">我的订阅</a>
+      <button class="button button-dark" data-start-quiz>开始定制</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero-cinematic" aria-labelledby="heroTitle">
+      <div class="hero-media" aria-hidden="true">
+        <video id="heroVideo" autoplay muted loop playsinline poster="/assets/cat-grid.png">
+          <source src="/assets/cat-story-clean.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-stage shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> 每一口，都先问过它</p>
+          <h1 id="heroTitle">这顿饭，<br><em>先问过它。</em></h1>
+          <p class="hero-lead">记录口味、年龄和日常状态，为它配好一箱真正吃得明白的新鲜餐食。</p>
+          <div class="hero-cta">
+            <button class="button button-yellow button-large" data-start-quiz>
+              1 分钟配好试吃箱 <span aria-hidden="true">→</span>
+            </button>
+            <button class="play-link" data-scroll="#recipes">
+              <span class="play-icon" aria-hidden="true">↓</span>
+              看看今天的菜单
+            </button>
+          </div>
+          <div class="hero-offer" aria-label="新客试吃信息">
+            <span><small>新客试吃</small><strong>10 包个性化组合</strong></span>
+            <span><small>首箱价格</small><strong>¥119 起</strong></span>
+            <span><small>配送方式</small><strong>冷链免运</strong></span>
+          </div>
+        </div>
+        <ol class="hero-chapters" aria-label="订阅流程">
+          <li class="active"><b>01</b><span>认识它</span></li>
+          <li><b>02</b><span>配好十包</span></li>
+          <li><b>03</b><span>冷链到家</span></li>
+        </ol>
+      </div>
+      <div class="hero-bottom shell">
+        <p><span class="live-dot" aria-hidden="true"></span> 画面来自猫小灶的白猫主角</p>
+        <button class="video-control" id="videoControl" aria-label="暂停视频"><span aria-hidden="true">Ⅱ</span><em>暂停画面</em></button>
+        <button class="scroll-cue" data-scroll="#why" aria-label="向下了解更多"><span>向下看看</span><i>↓</i></button>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="产品特点">
+      <div class="ticker-track">
+        <span>真肉优先</span><i>✦</i><span>温和烹制</span><i>✦</i><span>天然含水</span><i>✦</i><span>营养均衡</span><i>✦</i><span>冷链到家</span><i>✦</i>
+        <span aria-hidden="true">真肉优先</span><i aria-hidden="true">✦</i><span aria-hidden="true">温和烹制</span><i aria-hidden="true">✦</i><span aria-hidden="true">天然含水</span><i aria-hidden="true">✦</i>
+      </div>
+    </section>
+
+    <section class="section intro shell" id="why">
+      <div class="section-heading">
+        <p class="eyebrow"><span></span> 为什么选择猫小灶</p>
+        <h2>肉更多，<br>谜团更少。</h2>
+      </div>
+      <div class="intro-copy">
+        <p class="big-copy">猫咪不需要复杂的配料表。它需要的是优质动物蛋白、自然水分，以及为每天认真算过的营养。</p>
+        <p>我们把原料、热量与喂养建议讲清楚。没有玄学承诺，只有你看得懂、它吃得香的一餐。</p>
+      </div>
+      <div class="benefit-grid">
+        <article class="benefit-card yellow" tabindex="0" role="button" data-benefit="protein" aria-expanded="false">
+          <span class="card-number">01</span>
+          <div class="line-icon bowl-icon" aria-hidden="true"></div>
+          <h3>真肉在前</h3>
+          <p>以清晰标注的动物蛋白为主角，不靠不必要的填充物凑分量。</p>
+          <div class="benefit-detail">鸡肉、火鸡、鱼肉或牛肉会被明确写在配料表前列，并标注每包热量与主要营养信息。</div>
+        </article>
+        <article class="benefit-card green" tabindex="0" role="button" data-benefit="water" aria-expanded="false">
+          <span class="card-number">02</span>
+          <div class="line-icon drop-icon" aria-hidden="true"></div>
+          <h3>水分在餐里</h3>
+          <p>让补水自然发生在每一口，尤其适合不爱主动喝水的猫咪。</p>
+          <div class="benefit-detail">鲜食天然含有更多水分。实际含水量需以每款配方的检测与标签信息为准。</div>
+        </article>
+        <article class="benefit-card peach" tabindex="0" role="button" data-benefit="cook" aria-expanded="false">
+          <span class="card-number">03</span>
+          <div class="line-icon flame-icon" aria-hidden="true"></div>
+          <h3>温和烹制</h3>
+          <p>小批切配、温和熟制、及时冷冻，留住口感也守住新鲜。</p>
+          <div class="benefit-detail">从原料验收到分装冷冻，每一批次都应保留生产与质检记录，正式上线前需接入真实数据。</div>
+        </article>
+        <article class="benefit-card lilac" tabindex="0" role="button" data-benefit="plan" aria-expanded="false">
+          <span class="card-number">04</span>
+          <div class="line-icon plan-icon" aria-hidden="true"></div>
+          <h3>按猫定量</h3>
+          <p>结合体重、年龄与偏好推荐份量，之后仍能随时修改。</p>
+          <div class="benefit-detail">推荐会说明使用了哪些答案、采用哪个规则版本，并允许你回到问卷重新计算。</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section story-band">
+      <div class="shell split-story">
+        <div class="story-image">
+          <div class="cat-mosaic" aria-label="白色蓝眼猫咪在秋日树林吊篮中的九个可爱瞬间">
+            <button style="--col:0;--row:0" data-gallery-index="0" aria-label="查看猫咪在吊篮中的远景"></button>
+            <button style="--col:1;--row:0" data-gallery-index="1" aria-label="查看猫咪正面特写"></button>
+            <button style="--col:2;--row:0" data-gallery-index="2" aria-label="查看猫咪伸出前爪"></button>
+            <button style="--col:0;--row:1" data-gallery-index="3" aria-label="查看猫咪舔爪子"></button>
+            <button style="--col:1;--row:1" data-gallery-index="4" aria-label="查看猫咪玩蕾丝"></button>
+            <button style="--col:2;--row:1" data-gallery-index="5" aria-label="查看猫咪侧脸"></button>
+            <button style="--col:0;--row:2" data-gallery-index="6" aria-label="查看猫咪靠近镜头"></button>
+            <button style="--col:1;--row:2" data-gallery-index="7" aria-label="查看猫咪伸爪互动"></button>
+            <button style="--col:2;--row:2" data-gallery-index="8" aria-label="查看猫咪在夕阳下睡觉"></button>
+          </div>
+          <span class="image-caption">今天也要认真吃饭。</span>
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow light"><span></span> 为挑嘴猫留一点余地</p>
+          <h2>先试一小箱，<br><em>再决定长久。</em></h2>
+          <p>不同蛋白、不同质地，第一次不用押注。我们先为它配好 10 包试吃，你还可以继续增减。</p>
+          <button class="button button-yellow" data-start-quiz>看看它会喜欢什么 <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="recipes">
+      <div class="recipes-heading">
+        <div>
+          <p class="eyebrow"><span></span> 今日菜单</p>
+          <h2>一周七天，<br>不必顿顿一样。</h2>
+        </div>
+        <p>每份配方都会完整标明蛋白来源、主要食材和热量。以下价格为演示内容，正式购买前以业务配置为准。</p>
+      </div>
+      <div class="recipe-filters" role="group" aria-label="筛选配方">
+        <button class="active" data-recipe-filter="all">全部</button><button data-recipe-filter="gentle">温和入门</button><button data-recipe-filter="aroma">香气丰富</button><button data-recipe-filter="lean">轻盈口感</button>
+      </div>
+      <div class="recipe-grid">
+        <article class="recipe-card recipe-chicken" data-tags="gentle lean" data-reveal>
+          <button class="recipe-photo" data-recipe="chicken" aria-label="查看慢煮鸡肉餐详情"><img src="/assets/recipe-chicken-v2.webp" alt="慢煮鸡肉与南瓜鲜食"><span>查看配料 →</span></button>
+          <div class="recipe-info"><span class="pill">人气首选</span><h3>慢煮鸡肉餐</h3><p>鸡腿肉 · 鸡心 · 南瓜</p><strong>约 118 kcal / 100g</strong><button class="quick-add" data-prefer="chicken">加入口味偏好 ＋</button></div>
+        </article>
+        <article class="recipe-card recipe-turkey" data-tags="lean gentle" data-reveal>
+          <button class="recipe-photo" data-recipe="turkey" aria-label="查看火鸡胡萝卜餐详情"><img src="/assets/recipe-turkey-v2.webp" alt="火鸡肉与胡萝卜鲜食"><span>查看配料 →</span></button>
+          <div class="recipe-info"><span class="pill">轻盈口感</span><h3>火鸡胡萝卜餐</h3><p>火鸡肉 · 鸡肝 · 胡萝卜</p><strong>约 112 kcal / 100g</strong><button class="quick-add" data-prefer="turkey">加入口味偏好 ＋</button></div>
+        </article>
+        <article class="recipe-card recipe-fish" data-tags="aroma" data-reveal>
+          <button class="recipe-photo" data-recipe="fish" aria-label="查看深海鱼双拼详情"><img src="/assets/recipe-fish-v2.webp" alt="三文鱼、鳕鱼与西兰花鲜食"><span>查看配料 →</span></button>
+          <div class="recipe-info"><span class="pill">香气担当</span><h3>深海鱼双拼</h3><p>三文鱼 · 鳕鱼 · 西兰花</p><strong>约 124 kcal / 100g</strong><button class="quick-add" data-prefer="fish">加入口味偏好 ＋</button></div>
+        </article>
+        <article class="recipe-card recipe-beef" data-tags="aroma" data-reveal>
+          <button class="recipe-photo" data-recipe="beef" aria-label="查看牛肉蛋黄餐详情"><img src="/assets/recipe-beef-v2.webp" alt="牛肉与蛋黄鲜食"><span>查看配料 →</span></button>
+          <div class="recipe-info"><span class="pill">浓郁满足</span><h3>牛肉蛋黄餐</h3><p>牛肉 · 牛心 · 熟蛋黄</p><strong>约 132 kcal / 100g</strong><button class="quick-add" data-prefer="beef">加入口味偏好 ＋</button></div>
+        </article>
+      </div>
+      <div class="center-action"><button class="button button-outline" data-start-quiz>获取专属菜单 <span aria-hidden="true">→</span></button></div>
+    </section>
+
+    <section class="section how-section" id="how">
+      <div class="shell">
+        <div class="how-title">
+          <p class="eyebrow"><span></span> 从今天开始</p>
+          <h2>开饭，只要三步。</h2>
+        </div>
+        <ol class="steps">
+          <li><span class="step-no">1</span><div><h3>告诉我们，它是谁</h3><p>用约 1 分钟回答口味、体重与生活状态。答案会保存在当前设备。</p></div></li>
+          <li><span class="step-no">2</span><div><h3>编辑它的试吃箱</h3><p>我们先配好 10 包，你可以替换口味，所有加价都实时显示。</p></div></li>
+          <li><span class="step-no">3</span><div><h3>按你的节奏收货</h3><p>首箱之后再决定是否续订；配送日期、配方、暂停和取消都能调整。</p></div></li>
+        </ol>
+        <button class="button button-dark button-large" data-start-quiz>开始 1 分钟定制 <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <section class="section process-section" id="process">
+      <div class="shell process-layout">
+        <div class="process-visual" data-reveal><img src="/assets/delivery-box-v2.png" alt="黄色冷链箱中整齐放置着多种颜色的猫咪鲜食餐包"></div>
+        <div class="process-copy">
+          <p class="eyebrow"><span></span> 从厨房到饭碗</p><h2>认真做饭，<br>也认真送达。</h2>
+          <div class="process-tabs" role="tablist" aria-label="鲜食制作与配送过程">
+            <button class="active" role="tab" aria-selected="true" data-process="prep"><b>01</b><span><strong>认真切配</strong><small>原料验收与小批准备</small></span></button>
+            <button role="tab" aria-selected="false" data-process="cook"><b>02</b><span><strong>温和烹制</strong><small>熟制时间与温度留档</small></span></button>
+            <button role="tab" aria-selected="false" data-process="freeze"><b>03</b><span><strong>及时冷冻</strong><small>分装后尽快进入冷冻</small></span></button>
+            <button role="tab" aria-selected="false" data-process="deliver"><b>04</b><span><strong>冷链到家</strong><small>可追踪配送与到货提醒</small></span></button>
+          </div>
+          <p class="process-description" id="processDescription">每一批原料都应有明确来源、验收状态与批次记录。这里展示的是产品流程设计，正式数据需由供应链系统接入。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell reviews" id="stories">
+      <div class="review-summary">
+        <p class="eyebrow"><span></span> 猫家长说</p>
+        <h2>盘子空了，<br>心也满了。</h2>
+        <div class="rating" aria-label="5 星演示评价">★★★★★ <span>5.0 · 演示评价</span></div>
+        <p class="demo-note">以下内容仅作页面样式展示，并非真实用户证言。</p>
+      </div>
+      <div class="review-cards">
+        <article><div class="quote">“</div><p>第一次没有整箱押一个口味，真的很适合家里这位挑嘴选手。</p><footer><span class="avatar">布</span><div><strong>布丁家长</strong><small>体验了 3 种配方 · Demo</small></div></footer></article>
+        <article><div class="quote">“</div><p>配料和克数都写得明白，暂停入口也很好找，这点让我很安心。</p><footer><span class="avatar">十</span><div><strong>十五家长</strong><small>订阅管理体验 · Demo</small></div></footer></article>
+      </div>
+    </section>
+
+    <section class="guarantee shell">
+      <div class="guarantee-mark" aria-hidden="true">安心<br>试吃</div>
+      <div><p class="eyebrow"><span></span> 第一次应该没有压力</p><h2>它不喜欢？<br>先别怪自己。</h2></div>
+      <div><p>试吃保障的期限、适用范围和申请方式会在正式上线前公示。演示站不构成退款承诺。</p><button class="text-link" data-start-quiz>开始定制 <span aria-hidden="true">→</span></button></div>
+    </section>
+
+    <section class="section shell faq-section" id="faq">
+      <div><p class="eyebrow"><span></span> 常见问题</p><h2>开饭前，<br>再问几句。</h2></div>
+      <div class="faq-list">
+        <details><summary>鲜食需要怎么保存？<span>＋</span></summary><p>冷冻保存；喂食前按包装说明冷藏解冻。开封后请尽快食用，不反复冷冻。</p></details>
+        <details><summary>可以随时更换配方吗？<span>＋</span></summary><p>可以。每次订单锁定前都可调整口味和数量，演示站会展示完整操作流程。</p></details>
+        <details><summary>这是医疗或处方建议吗？<span>＋</span></summary><p>不是。问卷只用于餐食筛选与风险提示。猫咪有疾病、过敏或正在用药时，请先咨询兽医。</p></details>
+        <details><summary>不想续订怎么办？<span>＋</span></summary><p>正式服务中，暂停与取消会和订阅入口处于同一层级，不强制联系客服。</p></details>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell final-cta-inner">
+        <div class="mini-cat" aria-hidden="true">ฅ</div>
+        <h2>下一顿，<br><em>就吃点新的。</em></h2>
+        <p>用 1 分钟告诉我们它的故事。第一箱，我们一起配。</p>
+        <button class="button button-yellow button-large" data-start-quiz>为我的猫定制 <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-top">
+      <div class="footer-brand"><a class="brand brand-light" href="/"><span class="brand-mark">猫</span><span>猫小灶<small>MAO'S KITCHEN</small></span></a><p>认真做猫饭，也认真说人话。</p></div>
+      <div><strong>产品</strong><a href="/recipes">今日菜单</a><a href="/why-us">为什么鲜食</a><a href="/#how">如何订阅</a></div>
+      <div><strong>帮助</strong><a href="#stories">猫家长说</a><a href="/faq">常见问题</a><a href="mailto:hello@example.com">联系客服</a></div>
+      <div><strong>订阅鲜报</strong><p>每月一封，不刷屏。</p><form id="newsletterForm"><label class="sr-only" for="newsletterEmail">邮箱</label><div class="email-row"><input id="newsletterEmail" type="email" placeholder="你的邮箱" required><button aria-label="订阅">→</button></div></form></div>
+    </div>
+    <div class="shell footer-bottom"><span>© 2026 猫小灶 · 概念演示站</span><span><a href="/policies/privacy">隐私</a><a href="/policies/subscription">订阅条款</a><a href="/policies/health">食品与健康声明</a></span></div>
+  </footer>
+
+  <dialog class="quiz-dialog" id="quizDialog" aria-labelledby="quizTitle">
+    <div class="quiz-shell">
+      <header class="quiz-header">
+        <a class="brand" href="#" tabindex="-1"><span class="brand-mark">猫</span><span>猫小灶<small>MAO'S KITCHEN</small></span></a>
+        <div class="progress-wrap"><span id="progressText">准备开始</span><div class="progress" role="progressbar" aria-label="定制进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressBar"></span></div></div>
+        <button class="dialog-close" id="quizClose" aria-label="关闭定制问卷">×</button>
+      </header>
+      <div id="quizContent" class="quiz-content" aria-live="polite"></div>
+    </div>
+  </dialog>
+
+  <dialog class="cart-dialog" id="cartDialog" aria-labelledby="cartTitle">
+    <div class="cart-panel">
+      <header><div><p class="eyebrow"><span></span> 你的试吃箱</p><h2 id="cartTitle">购物袋</h2></div><button class="dialog-close" id="cartClose" aria-label="关闭购物袋">×</button></header>
+      <div id="cartContent"></div>
+    </div>
+  </dialog>
+
+  <dialog class="recipe-dialog" id="recipeDialog" aria-labelledby="recipeTitle"><div class="recipe-drawer"><button class="dialog-close" id="recipeClose" aria-label="关闭配方详情">×</button><div id="recipeContent"></div></div></dialog>
+  <dialog class="gallery-dialog" id="galleryDialog" aria-label="猫咪照片浏览"><div class="gallery-view"><button class="dialog-close" id="galleryClose" aria-label="关闭照片">×</button><button class="gallery-nav prev" data-gallery-nav="-1" aria-label="上一张">←</button><div class="gallery-photo" id="galleryPhoto"></div><p id="galleryCaption"></p><button class="gallery-nav next" data-gallery-nav="1" aria-label="下一张">→</button></div></dialog>
+
+  <div class="paw-progress" aria-hidden="true"><span id="pawProgress">🐾</span></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js?v=7" type="module"></script>
+</body>
+</html>
