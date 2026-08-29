@@ -1,0 +1,96 @@
+{
+  "version": "v1",
+  "items": [
+    {
+      "file": "cat-thinking-720.png",
+      "size": [
+        720,
+        720
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-success-bowl-720.png",
+      "size": [
+        720,
+        720
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-empty-bowl-sad-720.png",
+      "size": [
+        720,
+        720
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-avatar-128.png",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-favicon-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-favicon-48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-favicon-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha": true
+    },
+    {
+      "file": "cat-favicon.ico",
+      "sizes": [
+        [
+          32,
+          32
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "mode": "ICO",
+      "alpha": true
+    },
+    {
+      "file": "cat-web-states-overview.png",
+      "size": [
+        1800,
+        1050
+      ],
+      "mode": "RGB",
+      "alpha": false
+    }
+  ]
+}

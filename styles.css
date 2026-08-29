@@ -290,3 +290,46 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 
 @media(max-width:767px){.is-pressed{transform:scale(.97)!important}.paw-stamp{color:var(--wine)}}
 @media(prefers-reduced-motion:reduce){.paw-click-feedback{display:none!important}.is-pressed{transform:none!important}.choice.selected::before,.palette-item.active::before,.delivery-options button.selected::before,.slot-options button.selected::before,.payment-options button.selected::before,.segmented button.active::before,.benefit-card.expanded::before{animation:none}.brand:hover .brand-mark::before,.brand:hover .brand-mark::after{animation:none}}
+
+/* V5 2D Q-version Buding: approved mother image and matching transparent states. */
+.mascot-img{display:block;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(40,28,15,.09))}
+.mascot-stage{position:relative;width:max-content;max-width:100%;margin:0 auto 12px}
+.mascot-welcome{width:clamp(155px,23vw,215px);animation:mascot-float 3.8s ease-in-out infinite}
+.mascot-speech{position:absolute;left:calc(100% - 22px);top:18%;width:154px;padding:10px 13px;border:1px solid var(--ink);border-radius:16px 16px 16px 4px;background:var(--yellow);font-size:12px;font-weight:800;line-height:1.45;text-align:left;transform:rotate(2deg)}
+.mascot-thinking{width:clamp(150px,21vw,190px);margin:0 auto -4px;animation:mascot-think 2.8s ease-in-out infinite}
+.mascot-success{width:clamp(112px,15vw,146px);margin:0 auto -8px}
+.mascot-empty{width:min(230px,78%);margin:0 auto 10px}
+.mascot-empty-large{width:100%;max-width:420px;animation:mascot-float 4s ease-in-out infinite}
+@keyframes mascot-float{50%{transform:translateY(-6px) rotate(1deg)}}
+@keyframes mascot-think{50%{transform:translateY(-4px) rotate(-1.5deg)}}
+
+.ip-companion{position:fixed;left:22px;bottom:22px;z-index:44;width:218px;min-height:76px;display:grid;grid-template-columns:68px 1fr;align-items:center;gap:11px;padding:5px 16px 5px 5px;border:1px solid rgba(23,19,16,.16);border-radius:999px;background:rgba(247,241,231,.96);box-shadow:0 14px 38px rgba(23,19,16,.16);color:var(--ink);pointer-events:none}
+.ip-companion-media{position:relative;display:block;width:68px;height:68px;border-radius:50%;overflow:hidden;background:#f5e6d4}
+.ip-companion-media img,.ip-companion-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ip-companion>span:last-child{display:grid;line-height:1.2}.ip-companion strong{font-size:13px}.ip-companion small{margin-top:5px;color:var(--muted);font-size:9px;white-space:nowrap}
+.ip-companion.is-static .ip-companion-media video{display:none}
+body.inner-page .ip-companion{display:none}
+
+.cart-empty{padding-top:34px}
+.cart-empty h3{font-size:30px;margin:0 0 10px}
+.cart-empty p{max-width:300px;margin:0 auto 24px;color:var(--muted)}
+.not-found{min-height:calc(100dvh - 190px);display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,440px);gap:70px;align-items:center;padding-block:70px}
+.not-found h1{font-size:clamp(4rem,8vw,7.2rem);line-height:.9;letter-spacing:-.06em;margin:24px 0}
+.not-found h1 em{font-weight:500}
+.not-found>div>p{max-width:580px;color:var(--muted);font-size:17px;line-height:1.8}
+.not-found-actions{display:flex;gap:12px;margin-top:30px}
+@media(max-width:767px){
+  .mascot-welcome{width:150px}
+  .mascot-speech{left:calc(100% - 24px);top:12%;width:124px;font-size:10px;padding:8px 10px}
+  .mascot-thinking{width:150px}
+  .mascot-success{width:112px}
+  .cart-empty .mascot-empty{width:190px}
+  .not-found{min-height:auto;display:flex;flex-direction:column-reverse;gap:8px;padding-block:42px 70px;text-align:center}
+  .not-found h1{font-size:clamp(3.7rem,17vw,5rem)}
+  .not-found>div>p{font-size:15px}
+  .not-found-actions{justify-content:center;flex-wrap:wrap}
+  .not-found>.mascot-empty-large{width:220px;margin-bottom:-8px}
+  .ip-companion{left:12px;bottom:12px;width:62px;min-height:62px;padding:3px;display:block}
+  .ip-companion-media{width:56px;height:56px}.ip-companion>span:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){.mascot-welcome,.mascot-thinking,.mascot-empty-large{animation:none}}

@@ -12,8 +12,9 @@
   <meta property="og:url" content="https://olivmonique482139-maker.github.io/">
   <meta name="theme-color" content="#f7f1e7">
   <title>猫小灶｜猫咪鲜食订阅</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css?v=14">
+  <link rel="icon" href="/assets/ip/cat-favicon.ico" sizes="32x32 48x48 64x64">
+  <link rel="icon" href="/assets/ip/cat-favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="stylesheet" href="/styles.css?v=17">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -91,7 +92,7 @@
         </ol>
       </div>
       <div class="hero-bottom shell">
-        <p><span class="live-dot" aria-hidden="true"></span> 画面来自猫小灶的白猫主角</p>
+        <p><span class="live-dot" aria-hidden="true"></span> 猫咪生活影像</p>
         <button class="video-control" id="videoControl" aria-label="暂停视频"><span aria-hidden="true">Ⅱ</span><em>暂停画面</em></button>
         <button class="scroll-cue" data-scroll="#why" aria-label="向下了解更多"><span>向下看看</span><i>↓</i></button>
       </div>
@@ -305,6 +306,16 @@
 
   <div class="paw-progress" aria-hidden="true"><span id="pawProgress">🐾</span></div>
 
+  <aside class="ip-companion" id="ipCompanion" aria-label="布丁，猫小灶的 2D Q 版店长">
+    <span class="ip-companion-media" aria-hidden="true">
+      <img src="/assets/ip/cat-avatar-128.png" alt="" decoding="async">
+      <video id="ipCompanionVideo" data-ambient-video muted loop autoplay playsinline preload="metadata" poster="/assets/ip/cat-idle-poster-v03-clean.webp">
+        <source src="/assets/ip/cat-idle-loop-v03-clean.mp4" type="video/mp4">
+      </video>
+    </span>
+    <span><strong>布丁</strong><small>今天也在认真监工</small></span>
+  </aside>
+
   <div class="music-player" id="musicPlayer">
     <div class="music-meta" aria-hidden="true">
       <strong>fluffy</strong>
@@ -319,6 +330,6 @@
     <source src="/assets/fluffy-cute-piano.mp3" type="audio/mpeg">
   </audio>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="/app.js?v=11" type="module"></script>
+  <script src="/app.js?v=14" type="module"></script>
 </body>
 </html>
