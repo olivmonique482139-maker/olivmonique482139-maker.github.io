@@ -497,6 +497,15 @@ $$('a,button', mobileMenu).forEach(item => item.addEventListener('click', () => 
 
 $$('[data-scroll]').forEach(button => button.addEventListener('click', () => $(button.dataset.scroll)?.scrollIntoView({behavior:'smooth'})));
 
+function runWhenPageIsIdle(callback, timeout = 1400) {
+  const schedule = () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(callback, { timeout });
+    else setTimeout(callback, Math.min(timeout, 900));
+  };
+  if (document.readyState === 'complete') schedule();
+  else window.addEventListener('load', schedule, { once:true });
+}
+
 const heroVideo = $('#heroVideo');
 const videoControl = $('#videoControl');
 if (heroVideo && videoControl) {
@@ -542,6 +551,7 @@ if (heroVideo && videoControl) {
       setVideoControlState(false);
     }
   });
+  setVideoControlState(false);
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
     videoPausedByUser = true;
     heroVideo.dataset.userPaused = 'true';
@@ -568,6 +578,9 @@ if (heroVideo && videoControl) {
         resumeHeroVideo();
       }
     });
+    runWhenPageIsIdle(() => {
+      if (!videoPausedByUser && !document.hidden && !$$('dialog').some(dialog => dialog.open) && scrollY < innerHeight) resumeHeroVideo();
+    }, 1200);
   }
 }
 
@@ -579,6 +592,9 @@ if (ipCompanion && ipCompanionVideo) {
     ipCompanionVideo.dataset.userPaused = 'true';
     ipCompanionVideo.pause();
   } else {
+    runWhenPageIsIdle(() => {
+      if (!document.hidden && !$$('dialog').some(dialog => dialog.open)) ipCompanionVideo.play().catch(() => ipCompanion.classList.add('is-static'));
+    }, 2200);
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && !ipCompanionVideo.paused) {
         ipCompanionVideo.dataset.autoPaused = 'true';
@@ -596,19 +612,29 @@ const backgroundMusic = $('#backgroundMusic');
 const musicControl = $('#musicControl');
 const musicPlayer = $('#musicPlayer');
 let musicFadeFrame;
+let musicFadeResolve;
+let musicTogglePending = false;
 
 function fadeMusic(target, duration = 650, pauseAfter = false) {
   cancelAnimationFrame(musicFadeFrame);
-  const start = backgroundMusic.volume;
-  const startedAt = performance.now();
-  const tick = now => {
-    const progress = Math.min((now - startedAt) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    backgroundMusic.volume = start + (target - start) * eased;
-    if (progress < 1) musicFadeFrame = requestAnimationFrame(tick);
-    else if (pauseAfter) backgroundMusic.pause();
-  };
-  musicFadeFrame = requestAnimationFrame(tick);
+  musicFadeResolve?.();
+  return new Promise(resolve => {
+    musicFadeResolve = resolve;
+    const start = backgroundMusic.volume;
+    const startedAt = performance.now();
+    const tick = now => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      backgroundMusic.volume = start + (target - start) * eased;
+      if (progress < 1) musicFadeFrame = requestAnimationFrame(tick);
+      else {
+        if (pauseAfter) backgroundMusic.pause();
+        musicFadeResolve = null;
+        resolve();
+      }
+    };
+    musicFadeFrame = requestAnimationFrame(tick);
+  });
 }
 
 function setMusicState(playing) {
@@ -618,25 +644,61 @@ function setMusicState(playing) {
   musicPlayer.classList.toggle('is-playing', playing);
 }
 
+function setMusicLoading(loading) {
+  musicControl.disabled = loading;
+  musicControl.setAttribute('aria-busy', String(loading));
+  musicPlayer.classList.toggle('is-loading', loading);
+  if (loading) musicControl.querySelector('.music-label').textContent = '音乐加载中…';
+}
+
+function playMusicWithTimeout(timeout = 12000) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('music-timeout')), timeout);
+    backgroundMusic.play().then(() => { clearTimeout(timer); resolve(); }, error => { clearTimeout(timer); reject(error); });
+  });
+}
+
 if (backgroundMusic && musicControl && musicPlayer) {
-  backgroundMusic.volume = 0;
+  backgroundMusic.volume = 0.06;
   musicControl.addEventListener('click', async () => {
-    if (!backgroundMusic.paused) {
-      setMusicState(false);
-      fadeMusic(0, 420, true);
-      return;
-    }
+    if (musicTogglePending) return;
+    musicTogglePending = true;
     try {
-      backgroundMusic.volume = 0;
-      await backgroundMusic.play();
-      setMusicState(true);
-      fadeMusic(0.1, 800);
+      if (!backgroundMusic.paused) {
+        setMusicLoading(true);
+        setMusicState(false);
+        await fadeMusic(0, 260, true);
+        backgroundMusic.volume = 0.06;
+      } else {
+        setMusicLoading(true);
+        backgroundMusic.volume = 0.06;
+        await playMusicWithTimeout();
+        setMusicState(true);
+        await fadeMusic(0.14, 460);
+      }
     } catch {
+      backgroundMusic.pause();
       setMusicState(false);
-      showToast('浏览器暂时没有允许播放，请再点一次音乐按钮。');
+      showToast('音乐加载超时，请检查网络后再试。');
+    } finally {
+      musicTogglePending = false;
+      setMusicLoading(false);
+      setMusicState(!backgroundMusic.paused);
     }
   });
+  backgroundMusic.addEventListener('waiting', () => {
+    if (!backgroundMusic.paused) {
+      musicPlayer.classList.add('is-loading');
+      musicControl.querySelector('.music-label').textContent = '音乐缓冲中…';
+    }
+  });
+  backgroundMusic.addEventListener('playing', () => {
+    musicPlayer.classList.remove('is-loading');
+    if (!musicTogglePending) setMusicState(true);
+  });
   backgroundMusic.addEventListener('error', () => {
+    musicTogglePending = false;
+    setMusicLoading(false);
     setMusicState(false);
     showToast('背景音乐暂时加载失败，请稍后重试。');
   });

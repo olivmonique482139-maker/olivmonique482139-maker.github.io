@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap');
-
 :root {
   --cream:#f7f1e7; --paper:#fffaf1; --ink:#171310; --muted:#686058; --yellow:#ffdf38;
   --green:#cfe1bd; --peach:#f3b78f; --lilac:#d9caef; --orange:#d86d34; --wine:#571d35;
@@ -7,7 +5,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:clip}
-body{margin:0;color:var(--ink);background:var(--cream);font-family:"DM Sans","Noto Sans SC",system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
+body{margin:0;color:var(--ink);background:var(--cream);font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
 body.no-scroll{overflow:hidden}
 button,input{font:inherit}
 button,a{touch-action:manipulation}
@@ -15,7 +13,7 @@ button{color:inherit}
 a{color:inherit;text-decoration:none}
 img,video{display:block;max-width:100%}
 h1,h2,h3,p{margin-top:0}
-h1,h2{font-family:"Noto Sans SC",sans-serif;letter-spacing:-.055em;line-height:1.04}
+h1,h2{font-family:"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;letter-spacing:-.055em;line-height:1.04}
 h2{font-size:clamp(2.55rem,5vw,5.6rem);margin-bottom:0;font-weight:900}
 em{font-style:normal;color:var(--orange)}
 .shell{width:min(1240px,calc(100% - 48px));margin-inline:auto}
@@ -252,6 +250,7 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 .music-meta strong{font-size:11px;white-space:nowrap}.music-meta small{font-size:8px;white-space:nowrap;color:rgba(255,255,255,.62);margin-top:3px}
 .music-control{border:0;border-radius:999px;min-height:42px;padding:0 14px;display:flex;align-items:center;gap:9px;background:var(--yellow);color:var(--ink);cursor:pointer;font-weight:900}
 .music-control:hover{background:#ffe65f}.music-label{font-size:11px;white-space:nowrap}
+.music-control:disabled{cursor:wait;opacity:.78}.music-player.is-loading .music-equalizer i{animation:music-wave .55s ease-in-out infinite alternate}
 .music-equalizer{width:16px;height:16px;display:flex;align-items:center;justify-content:center;gap:2px}
 .music-equalizer i{display:block;width:2px;height:5px;border-radius:99px;background:currentColor;transform-origin:center}
 .music-player.is-playing .music-equalizer i{animation:music-wave .8s ease-in-out infinite alternate}
@@ -305,9 +304,9 @@ body:not(.inner-page) .site-header:not(.scrolled) .menu-button span{background:#
 
 .ip-companion{position:fixed;left:22px;bottom:22px;z-index:44;width:218px;min-height:76px;display:grid;grid-template-columns:68px 1fr;align-items:center;gap:11px;padding:5px 16px 5px 5px;border:1px solid rgba(23,19,16,.16);border-radius:999px;background:rgba(247,241,231,.96);box-shadow:0 14px 38px rgba(23,19,16,.16);color:var(--ink);pointer-events:none}
 .ip-companion-media{position:relative;display:block;width:68px;height:68px;border-radius:50%;overflow:hidden;background:#f5e6d4}
-.ip-companion-media img,.ip-companion-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ip-companion-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ip-companion>span:last-child{display:grid;line-height:1.2}.ip-companion strong{font-size:13px}.ip-companion small{margin-top:5px;color:var(--muted);font-size:9px;white-space:nowrap}
-.ip-companion.is-static .ip-companion-media video{display:none}
+.ip-companion.is-static .ip-companion-media video{opacity:.9}
 body.inner-page .ip-companion{display:none}
 
 .cart-empty{padding-top:34px}

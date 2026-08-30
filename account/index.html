@@ -13,8 +13,8 @@
   <meta name="theme-color" content="#f7f1e7">
   <title>猫小灶｜猫咪鲜食订阅</title>
   <link rel="icon" href="/assets/ip/cat-favicon.ico" sizes="32x32 48x48 64x64">
-  <link rel="icon" href="/assets/ip/cat-favicon-64.png" type="image/png" sizes="64x64">
-  <link rel="stylesheet" href="/styles.css?v=17">
+  <link rel="preload" href="/assets/cat-story-poster.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="/styles.css?v=18">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -60,7 +60,7 @@
   <main id="main">
     <section class="hero hero-cinematic" aria-labelledby="heroTitle">
       <div class="hero-media" aria-hidden="true">
-        <video id="heroVideo" autoplay muted loop playsinline poster="/assets/cat-grid.webp">
+        <video id="heroVideo" muted loop playsinline preload="none" poster="/assets/cat-story-poster.webp">
           <source src="/assets/cat-story-web.mp4" type="video/mp4">
         </video>
       </div>
@@ -93,7 +93,7 @@
       </div>
       <div class="hero-bottom shell">
         <p><span class="live-dot" aria-hidden="true"></span> 猫咪生活影像</p>
-        <button class="video-control" id="videoControl" aria-label="暂停视频"><span aria-hidden="true">Ⅱ</span><em>暂停画面</em></button>
+        <button class="video-control" id="videoControl" aria-label="播放视频"><span aria-hidden="true">▶</span><em>播放画面</em></button>
         <button class="scroll-cue" data-scroll="#why" aria-label="向下了解更多"><span>向下看看</span><i>↓</i></button>
       </div>
     </section>
@@ -308,8 +308,7 @@
 
   <aside class="ip-companion" id="ipCompanion" aria-label="布丁，猫小灶的 2D Q 版店长">
     <span class="ip-companion-media" aria-hidden="true">
-      <img src="/assets/ip/cat-avatar-128.png" alt="" decoding="async">
-      <video id="ipCompanionVideo" data-ambient-video muted loop autoplay playsinline preload="metadata" poster="/assets/ip/cat-idle-poster-v03-clean.webp">
+      <video id="ipCompanionVideo" data-ambient-video muted loop playsinline preload="none" poster="/assets/ip/cat-avatar-128.png">
         <source src="/assets/ip/cat-idle-loop-v03-clean.mp4" type="video/mp4">
       </video>
     </span>
@@ -330,6 +329,6 @@
     <source src="/assets/fluffy-cute-piano.mp3" type="audio/mpeg">
   </audio>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="/app.js?v=14" type="module"></script>
+  <script src="/app.js?v=15" type="module"></script>
 </body>
 </html>
